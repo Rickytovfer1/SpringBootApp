@@ -11,6 +11,10 @@ import java.util.List;
 
 @Service
 public class ProductoServicio {
+
+    private int cont_id = 3;
+
+
     private List<Producto> listaProductos = new ArrayList<>();
     public List<Producto> listaProducto(){
         Producto p1 = new Producto(1, "Zapatos", 50, "Deportes");
@@ -21,6 +25,10 @@ public class ProductoServicio {
         return listaProductos;
     }
 
+    public void agregarProducto(Producto p) {
+        p.setId(cont_id++);
+        listaProductos.add(p);
+    }
 
     public Producto verProductoID(Integer id){
         for (Producto p: listaProductos){

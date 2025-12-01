@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +33,23 @@ public class ProductoControlador {
 
         return "verDetalle";
     }
+
+    @GetMapping("/formulario")
+    public String formulario(Model model){
+        Producto p = new Producto();
+        model.addAttribute("producto",p);
+
+        return "formulario";
+    }
+
+    @PostMapping("/formulario")
+    public String obtenerFormulario(Producto producto, Model model) {
+        System.out.println(producto.toString());
+        productoServicio.agregarProducto(producto);
+        model.addAttribute("listaProductos", productoServicio.listaProducto());
+
+        return "productos";
+    }
+
 
 }
