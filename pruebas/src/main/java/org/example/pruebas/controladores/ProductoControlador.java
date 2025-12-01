@@ -1,5 +1,6 @@
 package org.example.pruebas.controladores;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.example.pruebas.modelos.Producto;
@@ -7,7 +8,9 @@ import org.example.pruebas.servicios.ProductoServicio;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -43,8 +46,11 @@ public class ProductoControlador {
     }
 
     @PostMapping("/formulario")
-    public String obtenerFormulario(Producto producto, Model model) {
-        System.out.println(producto.toString());
+    public String obtenerFormulario(@Valid @ModelAttribute("producto") Producto producto,
+                                    BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "formulario";
+        }
         productoServicio.agregarProducto(producto);
         model.addAttribute("listaProductos", productoServicio.listaProducto());
 
